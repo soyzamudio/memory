@@ -1,8 +1,6 @@
 'use strict';
 /* global _ */
-
 $(document).ready(init);
-
 function init() {
   createCards();
   lineUpCards();
@@ -17,23 +15,28 @@ var matched = [];
 var flipped = 0;
 var seconds = 60;
 var timer;
+var isRunning = false;
 
 function startTimer() {
   timer = setInterval(countDown, 1000);
+  isRunning = true;
 }
 
 function countDown() {
   seconds--;
-  if (seconds <= 0) {
+  if (seconds < 0) {
+    seconds = 0;
     clearInterval(timer);
+    isRunning = false;
     alert('YOU LOST!');
+    seconds = 60;
+    _.shuffle(cards);
   }
   $('#time').text(seconds);
 }
 
 function flipCard() {
-  if (flipped < 2 && _.find(cards, _.matchesProperty($(this).attr('id')))) {
-    $(this).removeClass('fadeOut');
+  if (flipped < 2 && _.find(cards, _.matchesProperty($(this).attr('id'))) && isRunning) {
     $(this).addClass('animated flipInY');
     $(this).css('opacity', '1');
     flipped++;
@@ -53,7 +56,9 @@ function checkMatch(array) {
     });
     if (cards.length === 0) {
       clearInterval(timer);
+      seconds = 60;
       alert('YOU WON!');
+      _.shuffle(cards);
     }
   } else {
     array.forEach(function(e) {
