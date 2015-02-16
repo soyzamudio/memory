@@ -7,16 +7,25 @@ html(lang='en')
     link(rel='stylesheet', href='/style.css')
     link(rel='stylesheet', href='/animate.css')
   body
+    #myModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
+      .modal-dialog
+        .modal-content
+          .modal-header
+              h4#myModalLabel.modal-title Welcome to MemoryJS!
+          .modal-body
+            h4#message You only have 60 seconds to solve this memory game.
+            h5 Click Start to begin!!
+          .modal-footer
+            button#timer.btn.btn-primary(type='button' data-dismiss='modal') Start
+
     .container
       .row.text-center
-        .col-md-6
-          h1 Welcome to Memory.js
-        .col-md-6
-          button#timer.btn.btn-default Start Timer
-          h4#time
+        .col-md-12
+          h1#time 60
 
     .container
       #cards.row
     script(src='/vendor/jquery/dist/jquery.js')
+    script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js')
     script(src='/vendor/lodash/lodash.js')
     script(src='/main.js')

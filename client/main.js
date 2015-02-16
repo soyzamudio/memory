@@ -7,6 +7,7 @@ function init() {
   $('.card').click(flipCard);
   $('#timer').click(startTimer);
   $('#time').text(seconds);
+  $('#myModal').modal();
 }
 
 var cards = [];
@@ -28,9 +29,8 @@ function countDown() {
     seconds = 0;
     clearInterval(timer);
     isRunning = false;
-    alert('YOU LOST!');
+    displayModal('YOU LOST!', 'You can do better than that!');
     seconds = 60;
-    _.shuffle(cards);
   }
   $('#time').text(seconds);
 }
@@ -57,8 +57,7 @@ function checkMatch(array) {
     if (cards.length === 0) {
       clearInterval(timer);
       seconds = 60;
-      alert('YOU WON!');
-      _.shuffle(cards);
+      displayModal('YOU WON!', 'Great job! You should try it again!');
     }
   } else {
     array.forEach(function(e) {
@@ -88,6 +87,7 @@ function lineUpCards() {
   for (var i = 0; i < array.length; i++) {
     var $card = $('<div>');
     $card.addClass('col-sm-3');
+    $card.addClass('outer');
     $card.addClass('bordered');
     var $inner = $('<div>');
     $inner.attr('id', array[i].name);
@@ -96,4 +96,14 @@ function lineUpCards() {
     $card.append($inner);
     $('#cards').append($card);
   }
+}
+
+function displayModal(title, message) {
+  $('#myModalLabel').text(title);
+  $('#message').text(message);
+  $('#myModal').modal();
+  $('#cards').empty();
+  _.shuffle(cards);
+  createCards();
+  lineUpCards();
 }
